@@ -17,10 +17,7 @@ app.listen(3000, () => {
     console.log("a listning the port  a 3000")
 })
 
-app.get("/about", (req, res) => {
-    // https://expressjs.com/en/4x/api.html
-    res.send("hello Abhishek patel , how are you, ghdghhdghdg");
-})
+//                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 
 
 app.get("/service", (req, res) => {
@@ -91,7 +88,7 @@ console.log(path.join(__dirname, "../public")) // C:\Users\ASUS\Desktop\FriendsZ
 console.log(path.join(__filename,"../.."))  // C:\Users\ASUS\Desktop\FriendsZone\friendsZone\express\src\index.js
 
 const staticPath = path.join(__dirname, "../public")
-app.use(express.static(staticPath)); // run bydefault 3000 port
+// app.use(express.static(staticPath)); // run bydefault 3000 port
 
 // ***************** Use Dynamic website **************************
 
@@ -99,3 +96,38 @@ app.use(express.static(staticPath)); // run bydefault 3000 port
 // some papular template engine that works with express are Pug, Mustache, hbs and Ejs . download hbs
 
 //  use tamplate engine to create a new folder views directory 
+
+app.set("view engine", "hbs");
+
+//view templete engine route
+
+app.set("views", path.join(__dirname, "../views"));
+
+app.get("/", (req, res) => {
+    res.render("index",{
+        age:24, //diynamic data send but use index.hbs {{age}} same formet
+    })
+})
+
+// ye data nhi show ho raha hai ye top to bottom rule follow kr raha hai iske jo pahile data mil ja raha h 
+// vahi show kr deta hai fr connection close kr deta hai
+
+app.get("/", (req, res) => { 
+    res.send("hello from express side") // not show
+})
+
+// change views directory
+// how to change views folder name , how to another folder name to run code
+const templatePath = path.join(__dirname, "../templates");
+
+app.set("view engine", "hbs");
+app.set("views", templatePath);
+
+app.get("/about", (req, res) => {
+    res.render("about")
+})
+app.get("/", (req, res) => {
+    res.render("index",{
+        age:24, //diynamic data send but use index.hbs {{age}} same formet
+    })
+})
