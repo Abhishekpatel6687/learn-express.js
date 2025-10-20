@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require("path")
+const hbs = require("hbs") // 1st work hbs require use partials
 
 const app = express();
 
@@ -87,7 +88,7 @@ console.log(__filename)  // C:\Users\ASUS\Desktop\FriendsZone\friendsZone\expres
 console.log(path.join(__dirname, "../public")) // C:\Users\ASUS\Desktop\FriendsZone\friendsZone\express\public
 console.log(path.join(__filename,"../.."))  // C:\Users\ASUS\Desktop\FriendsZone\friendsZone\express\src\index.js
 
-const staticPath = path.join(__dirname, "../public")
+// const staticPath = path.join(__dirname, "../public")
 // app.use(express.static(staticPath)); // run bydefault 3000 port
 
 // ***************** Use Dynamic website **************************
@@ -105,7 +106,7 @@ app.set("views", path.join(__dirname, "../views"));
 
 app.get("/", (req, res) => {
     res.render("index",{
-        age:24, //diynamic data send but use index.hbs {{age}} same formet
+        age:246, //diynamic data send but use index.hbs {{age}} same formet
     })
 })
 
@@ -118,16 +119,48 @@ app.get("/", (req, res) => {
 
 // change views directory
 // how to change views folder name , how to another folder name to run code
-const templatePath = path.join(__dirname, "../templates");
+// const templatePath = path.join(__dirname, "../templates");
+
+// app.set("view engine", "hbs");
+// app.set("views", templatePath);
+
+// app.get("/about", (req, res) => {
+//     res.render("about")
+// })
+// app.get("/", (req, res) => {
+//     res.render("index",{
+//         age:24, //diynamic data send but use index.hbs {{age}} same formet
+//     })
+// })
+
+
+//--8-------use Partials in express ja ------
+
+// Node  + Express.js, hbs and partials
+
+// Now that, we have a server up and running lets display more information on our pages
+//  and use partials and the hbs libarary to render views.
+
+// thats helps repated file, and reusable file
+
+// 1st work hbs require use partials
+
+//server start krne ke liye = nodemon src/index.js -e js,hbs  ==// all file run 
+
+//  ============
+// css use krne ke liye public folder me css file bnao
+const staticPath = path.join(__dirname, "../public")
+app.use(express.static(staticPath)); // run bydefault 3000 port
+//  =======
+
+const templatePath = path.join(__dirname, "../templates/views");
+const partialsPath = path.join(__dirname, "../templates/partials");
+
+app.get("/about", (req, res) => {
+  res.render("about");
+});
 
 app.set("view engine", "hbs");
 app.set("views", templatePath);
+hbs.registerPartials(partialsPath)
 
-app.get("/about", (req, res) => {
-    res.render("about")
-})
-app.get("/", (req, res) => {
-    res.render("index",{
-        age:24, //diynamic data send but use index.hbs {{age}} same formet
-    })
-})
